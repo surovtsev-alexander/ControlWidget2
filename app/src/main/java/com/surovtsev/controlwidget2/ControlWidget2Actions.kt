@@ -10,7 +10,7 @@ import androidx.glance.state.PreferencesGlanceStateDefinition
 
 
 class AddWaterClickAction : ActionCallback {
-    override suspend fun onAction(
+    override suspend fun onRun(
         context: Context,
         glanceId: GlanceId,
         parameters: ActionParameters,
@@ -34,7 +34,7 @@ class AddWaterClickAction : ActionCallback {
 }
 
 class ClearWaterClickAction: ActionCallback {
-    override suspend fun onAction(
+    override suspend fun onRun(
         context: Context,
         glanceId: GlanceId,
         parameters: ActionParameters,
