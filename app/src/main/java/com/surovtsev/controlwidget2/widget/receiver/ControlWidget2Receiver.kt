@@ -33,7 +33,9 @@ class ControlWidget2Receiver: GlanceAppWidgetReceiver() {
         appWidgetManager: AppWidgetManager,
         appWidgetIds: IntArray,
     ) {
+        logcat { "onUpdate+" }
         super.onUpdate(context, appWidgetManager, appWidgetIds)
+        logcat { "onUpdate-" }
 
         coroutineScope.launch {
             observeData(context)

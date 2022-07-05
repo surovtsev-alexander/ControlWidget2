@@ -9,7 +9,6 @@ import kotlinx.coroutines.flow.update
 import logcat.logcat
 import javax.inject.Inject
 
-/*
 class ControlsInformationRepo @Inject constructor(
     private val wifiManager: WifiManager,
     private val bluetoothAdapter: BluetoothAdapter,
@@ -50,5 +49,3 @@ class ControlsInformationRepo @Inject constructor(
         logcat { controlsInfoStateFlow.value.toString() }
     }
 }
-
- */

@@ -11,11 +11,13 @@ import androidx.glance.appwidget.cornerRadius
 import androidx.glance.layout.fillMaxSize
 import androidx.glance.layout.padding
 import com.surovtsev.controlwidget2.widget.ui.ControlWidget2Content
+import logcat.logcat
 
 class ControlWidget2: GlanceAppWidget() {
 
     @Composable
     override fun Content() {
+        logcat { "Content()" }
         ControlWidget2Content(
             modifier = GlanceModifier
                 .fillMaxSize()

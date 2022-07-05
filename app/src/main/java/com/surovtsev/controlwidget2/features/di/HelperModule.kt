@@ -2,6 +2,7 @@ package com.surovtsev.controlwidget2.features.di
 
 import android.bluetooth.BluetoothAdapter
 import android.content.Context
+import android.location.LocationManager
 import android.net.wifi.WifiManager
 import dagger.Module
 import dagger.Provides
@@ -26,9 +27,9 @@ object HelperModule {
         @ApplicationContext context: Context,
     ): BluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
 
-//    @Singleton
-//    @Provides
-//    fun provideLocationManager(
-//        @ApplicationContext context: Context,
-//    ): LocationManager = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+    @Singleton
+    @Provides
+    fun provideLocationManager(
+        @ApplicationContext context: Context,
+    ): LocationManager = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
 }
