@@ -8,12 +8,15 @@ import javax.inject.Inject
 class ControlsInformationUseCaseImp @Inject constructor(
     private val wifiManager: WifiManager,
     private val bluetoothAdapter: BluetoothAdapter,
+//    private val locationManager: LocationManager,
 ): ControlsInformationUseCase {
 
     override suspend fun getControlInformation(): ControlsInformation {
         return ControlsInformation(
             wifiManager.isWifiEnabled,
             bluetoothAdapter.isEnabled,
+            false,
+//            locationManager.isLocationEnabled,
         )
     }
 }

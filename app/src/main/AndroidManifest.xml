@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
     <uses-permission android:name="android.permission.BLUETOOTH"/>
+    <uses-permission android:name="android.location.PROVIDERS_CHANGED"/>
 
     <application
         android:name=".ControlsWidget2Application"
@@ -15,7 +16,7 @@
         android:theme="@style/Theme.ControlWidget2">
 
         <receiver
-            android:name=".ControlWidget2Receiver"
+            android:name=".widget.receiver.ControlWidget2Receiver"
             android:enabled="@bool/glance_appwidget_available"
             android:exported="false">
             <intent-filter>
@@ -29,6 +30,24 @@
                 android:resource="@xml/control_widget_info"
                 />
         </receiver>
+
+        <!--
+        <receiver
+            android:name=".controlsinfobriadcastreceiver.ControlsInfoBroadcastReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name= "android.net.wifi.WIFI_STATE_CHANGED" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name= "android.bluetooth.adapter.action.STATE_CHANGED" />
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name= "android.location.PROVIDERS_CHANGED" />
+            </intent-filter>
+        </receiver>
+        -->
+
     </application>
 
 </manifest>

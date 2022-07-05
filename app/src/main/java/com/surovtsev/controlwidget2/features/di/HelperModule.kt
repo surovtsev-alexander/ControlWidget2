@@ -25,4 +25,10 @@ object HelperModule {
     fun provideBluetoothAdapter(
         @ApplicationContext context: Context,
     ): BluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
+
+//    @Singleton
+//    @Provides
+//    fun provideLocationManager(
+//        @ApplicationContext context: Context,
+//    ): LocationManager = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
 }

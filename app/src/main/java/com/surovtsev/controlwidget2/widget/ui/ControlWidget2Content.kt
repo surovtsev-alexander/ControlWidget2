@@ -1,4 +1,4 @@
-package com.surovtsev.controlwidget2
+package com.surovtsev.controlwidget2.widget.ui
 
 import android.content.Context
 import androidx.compose.runtime.Composable
@@ -15,6 +15,10 @@ import androidx.glance.text.Text
 import androidx.glance.text.TextAlign
 import androidx.glance.text.TextStyle
 import androidx.glance.unit.ColorProvider
+import com.surovtsev.controlwidget2.R
+import com.surovtsev.controlwidget2.widget.ControlWidget2
+import com.surovtsev.controlwidget2.widget.callback.AddWaterClickAction
+import com.surovtsev.controlwidget2.widget.callback.ClearWaterClickAction
 
 @Composable
 fun ControlWidget2Content(
@@ -57,7 +61,7 @@ fun ControlWidget2Counter(
 ) {
     Text(
         text = context.getString(
-             R.string.glasses_of_water_format,
+            R.string.glasses_of_water_format,
             glassesOfWater
         ),
         modifier = modifier,
