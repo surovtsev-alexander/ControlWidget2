@@ -65,4 +65,6 @@ dependencies {
     implementation(Dependencies.daggerHilt)
 
     kapt(Dependencies.daggerHiltCompiler)
+
+    implementation("com.squareup.logcat:logcat:0.1")
 }
