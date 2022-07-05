@@ -2,6 +2,7 @@ package com.surovtsev.controlwidget2.di
 
 import android.content.Context
 import com.surovtsev.controlwidget2.controlsinfobriadcastreceiver.ControlsInfoBroadcastReceiver
+import com.surovtsev.controlwidget2.features.controlwidget2.domain.repository.ControlsInformationRepo
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -16,9 +17,9 @@ object AppModule {
     @Provides
     fun provideControlsInfoBroadcastReceiver(
         @ApplicationContext context: Context,
-//        controlsInformationRepo: ControlsInformationRepo,
+        controlsInformationRepo: ControlsInformationRepo,
     ): ControlsInfoBroadcastReceiver = ControlsInfoBroadcastReceiver(
-//        controlsInformationRepo
+        controlsInformationRepo
     ).apply {
             registerReceiver(context)
     }

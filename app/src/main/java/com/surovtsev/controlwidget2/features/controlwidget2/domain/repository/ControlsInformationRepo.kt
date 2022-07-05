@@ -5,22 +5,26 @@ import android.location.LocationManager
 import android.net.wifi.WifiManager
 import com.surovtsev.controlwidget2.features.controlwidget2.domain.model.ControlsInformation
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import logcat.logcat
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class ControlsInformationRepo @Inject constructor(
     private val wifiManager: WifiManager,
     private val bluetoothAdapter: BluetoothAdapter,
     private val locationAdapter: LocationManager,
 ) {
-    val controlsInfoStateFlow = MutableStateFlow(
+    private val _controlsInfoStateFlow = MutableStateFlow(
         ControlsInformation(
             false,
             false,
             false,
         )
     )
+    val controlsInfoStateFlow = _controlsInfoStateFlow.asStateFlow()
 
     fun updateWifiState() {
         updateControlsInfoStateFlow {
@@ -43,7 +47,7 @@ class ControlsInformationRepo @Inject constructor(
     private fun updateControlsInfoStateFlow(
         action: (curr: ControlsInformation) -> ControlsInformation
     ) {
-        controlsInfoStateFlow.update {
+        _controlsInfoStateFlow.update {
             action(it)
         }
         logcat { controlsInfoStateFlow.value.toString() }

@@ -7,11 +7,12 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.location.LocationManager
 import android.net.wifi.WifiManager
+import com.surovtsev.controlwidget2.features.controlwidget2.domain.repository.ControlsInformationRepo
 import logcat.logcat
 import javax.inject.Inject
 
 class ControlsInfoBroadcastReceiver @Inject constructor(
-//    private val controlsInformationRepo: ControlsInformationRepo,
+    private val controlsInformationRepo: ControlsInformationRepo,
 ): BroadcastReceiver() {
 
     companion object {
@@ -44,15 +45,15 @@ class ControlsInfoBroadcastReceiver @Inject constructor(
         when (intent.action) {
             WifiManager.WIFI_STATE_CHANGED_ACTION -> {
                 logcat { "wifi updated" }
-                //controlsInformationRepo.updateWifiState()
+                controlsInformationRepo.updateWifiState()
             }
             BluetoothAdapter.ACTION_STATE_CHANGED -> {
                 logcat { "bluetooth updated" }
-                //controlsInformationRepo.updateBluetoothState()
+                controlsInformationRepo.updateBluetoothState()
             }
             LocationManager.PROVIDERS_CHANGED_ACTION -> {
                 logcat { "gps updated" }
-                //controlsInformationRepo.updateLocationAdapter()
+                controlsInformationRepo.updateLocationAdapter()
             }
         }
     }

@@ -17,12 +17,11 @@ class ControlWidget2: GlanceAppWidget() {
 
     @Composable
     override fun Content() {
-        logcat { "Content()" }
         ControlWidget2Content(
             modifier = GlanceModifier
                 .fillMaxSize()
                 .background(
-                    day = Color.Blue,
+                    day = Color.Cyan,
                     night = Color.DarkGray,
                 )
                 .appWidgetBackground()

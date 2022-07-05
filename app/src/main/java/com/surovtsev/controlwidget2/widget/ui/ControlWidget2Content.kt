@@ -3,6 +3,7 @@ package com.surovtsev.controlwidget2.widget.ui
 import android.content.Context
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.intPreferencesKey
@@ -19,37 +20,71 @@ import com.surovtsev.controlwidget2.R
 import com.surovtsev.controlwidget2.widget.ControlWidget2
 import com.surovtsev.controlwidget2.widget.callback.AddWaterClickAction
 import com.surovtsev.controlwidget2.widget.callback.ClearWaterClickAction
+import com.surovtsev.controlwidget2.widget.receiver.ControlWidget2Receiver
 
 @Composable
 fun ControlWidget2Content(
     modifier: GlanceModifier,
 ) {
-    Column(
-        modifier = modifier,
+    Row(
+        modifier = modifier.padding(5.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        val context = LocalContext.current
         val prefs = currentState<Preferences>()
-        val glassesOfWater = prefs[intPreferencesKey(ControlWidget2.CONTROL_WIDGET2_PREFS_KEY)] ?: 0
-        ControlWidget2Counter(
-            context =context,
-            glassesOfWater =glassesOfWater,
+        val wifiState = ControlWidget2Receiver.wifiState.getValueOrDefault(prefs)
+        val bluetoothState = ControlWidget2Receiver.bluetoothState.getValueOrDefault(prefs)
+        val gpsState = ControlWidget2Receiver.gpsState.getValueOrDefault(prefs)
+
+
+        Image(
             modifier = GlanceModifier
-                .fillMaxWidth()
-                .defaultWeight()
+                .fillMaxHeight()
+                .defaultWeight(),
+            provider = ImageProvider(
+                resId = if (wifiState) R.drawable.wifi_on_icon else R.drawable.wifi_off_icon
+            ),
+            contentDescription = null
         )
-        ControlWidget2Goal(
-            context = context,
-            glassesOfWater = glassesOfWater,
+        Image(
             modifier = GlanceModifier
-                .fillMaxWidth()
-                .defaultWeight()
+                .fillMaxHeight()
+                .defaultWeight(),
+            provider = ImageProvider(
+                resId = if (bluetoothState) R.drawable.bluetooth_on_icon else R.drawable.bluetooth_off_icon
+            ),
+            contentDescription = null
         )
-        ControlWidget2ButtonLayout(
+        Image(
             modifier = GlanceModifier
-                .fillMaxSize()
-                .defaultWeight()
+                .fillMaxHeight()
+                .defaultWeight(),
+            provider = ImageProvider(
+                resId = if (gpsState) R.drawable.gps_on_icon else R.drawable.gps_off_icon
+            ),
+            contentDescription = null
         )
+
+//        val context = LocalContext.current
+//        val glassesOfWater = prefs[intPreferencesKey(ControlWidget2.CONTROL_WIDGET2_PREFS_KEY)] ?: 0
+//        ControlWidget2Counter(
+//            context =context,
+//            glassesOfWater =glassesOfWater,
+//            modifier = GlanceModifier
+//                .fillMaxWidth()
+//                .defaultWeight()
+//        )
+//        ControlWidget2Goal(
+//            context = context,
+//            glassesOfWater = glassesOfWater,
+//            modifier = GlanceModifier
+//                .fillMaxWidth()
+//                .defaultWeight()
+//        )
+//        ControlWidget2ButtonLayout(
+//            modifier = GlanceModifier
+//                .fillMaxSize()
+//                .defaultWeight()
+//        )
     }
 }
 

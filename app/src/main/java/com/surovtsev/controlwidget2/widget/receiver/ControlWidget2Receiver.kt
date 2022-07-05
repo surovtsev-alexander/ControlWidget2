@@ -4,9 +4,12 @@ import android.appwidget.AppWidgetManager
 import android.content.Context
 import android.content.Intent
 import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.core.stringPreferencesKey
+import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.glance.appwidget.GlanceAppWidget
+import androidx.glance.appwidget.GlanceAppWidgetManager
 import androidx.glance.appwidget.GlanceAppWidgetReceiver
+import androidx.glance.appwidget.state.updateAppWidgetState
+import androidx.glance.state.PreferencesGlanceStateDefinition
 import com.surovtsev.controlwidget2.controlsinfobriadcastreceiver.ControlsInfoBroadcastReceiver
 import com.surovtsev.controlwidget2.features.controlwidget2.domain.repository.ControlsInformationRepo
 import com.surovtsev.controlwidget2.features.controlwidget2.domain.usecase.ControlsInformationUseCase
@@ -14,6 +17,8 @@ import com.surovtsev.controlwidget2.widget.ControlWidget2
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import logcat.logcat
 import javax.inject.Inject
@@ -35,7 +40,7 @@ class ControlWidget2Receiver: GlanceAppWidgetReceiver() {
     @Inject
     lateinit var controlsInformationRepo: ControlsInformationRepo
 
-    private val _coroutines = emptyMap<Int, Job>().toMutableMap()
+    private var updateJob: Job? = null
 
     override fun onUpdate(
         context: Context,
@@ -47,27 +52,36 @@ class ControlWidget2Receiver: GlanceAppWidgetReceiver() {
         super.onUpdate(context, appWidgetManager, appWidgetIds)
         logcat { "onUpdate-" }
 
-        appWidgetIds.map {
-            if (!_coroutines.containsKey(it)) {
+        if (updateJob == null) {
+            SupervisorJob().also {
+                updateJob = it
+                coroutineScope.launch(it) {
+                    updateState(context)
+                }
             }
-        }
-
-        coroutineScope.launch {
-            observeData(context)
-        }
-
-        logcat {  "xx" }
-        coroutineScope.launch {
-            logcat { controlsInformationUseCase.getControlInformation().toString() }
         }
     }
 
     private suspend fun updateState(
-        appWidgetId: Int
+        context: Context,
     ) {
-        controlsInformationRepo.controlsInfoStateFlow.collect {
+        controlsInformationRepo.controlsInfoStateFlow.collectLatest { controlsInformation ->
+            logcat { "updateState; controlsInformation: $controlsInformation" }
 
+            val glanceIds = GlanceAppWidgetManager(context).getGlanceIds(ControlWidget2::class.java)
+
+            glanceIds.map { glanceId ->
+                updateAppWidgetState(context, PreferencesGlanceStateDefinition, glanceId) { prefs ->
+                    prefs.toMutablePreferences().apply {
+                        this[wifiState.key] = controlsInformation.wifiEnabled
+                        this[bluetoothState.key] = controlsInformation.bluetoothEnabled
+                        this[gpsState.key] = controlsInformation.gpsEnabled
+                    }
+                }
+                glanceAppWidget.update(context, glanceId)
+            }
         }
+        logcat { "updateState: done" }
     }
 
 
@@ -91,16 +105,22 @@ class ControlWidget2Receiver: GlanceAppWidgetReceiver() {
 
     companion object {
         data class KeyDescription(
-            val key: Preferences.Key<String>,
+            val key: Preferences.Key<Boolean>,
             val defValue: Boolean = false,
         ) {
             constructor(
                 key: String,
                 defValue: Boolean = false,
             ): this(
-                stringPreferencesKey(key),
+                booleanPreferencesKey(key),
                 defValue,
             )
+
+            fun getValueOrDefault(
+                pref: Preferences
+            ): Boolean {
+                return pref[key] ?: defValue
+            }
         }
 
         val wifiState = KeyDescription(
