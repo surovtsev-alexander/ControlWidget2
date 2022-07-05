@@ -6,8 +6,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.glance.*
+import androidx.glance.action.ActionParameters
+import androidx.glance.action.actionParametersOf
 import androidx.glance.action.clickable
 import androidx.glance.appwidget.action.actionRunCallback
 import androidx.glance.layout.*
@@ -20,6 +21,7 @@ import com.surovtsev.controlwidget2.R
 import com.surovtsev.controlwidget2.widget.ControlWidget2
 import com.surovtsev.controlwidget2.widget.callback.AddWaterClickAction
 import com.surovtsev.controlwidget2.widget.callback.ClearWaterClickAction
+import com.surovtsev.controlwidget2.widget.callback.CommandToControlWidget2Action
 import com.surovtsev.controlwidget2.widget.receiver.ControlWidget2Receiver
 
 @Composable
@@ -35,33 +37,28 @@ fun ControlWidget2Content(
         val bluetoothState = ControlWidget2Receiver.bluetoothState.getValueOrDefault(prefs)
         val gpsState = ControlWidget2Receiver.gpsState.getValueOrDefault(prefs)
 
+        val context = LocalContext.current
 
-        Image(
-            modifier = GlanceModifier
-                .fillMaxHeight()
-                .defaultWeight(),
-            provider = ImageProvider(
-                resId = if (wifiState) R.drawable.wifi_on_icon else R.drawable.wifi_off_icon
-            ),
-            contentDescription = null
+        ControlWidget2Button(
+            rowScope = this,
+            context = context,
+            name = ControlWidget2Receiver.wifiState.key.name,
+            currState = wifiState,
+            icons = listOf(R.drawable.wifi_on_icon, R.drawable.wifi_off_icon)
         )
-        Image(
-            modifier = GlanceModifier
-                .fillMaxHeight()
-                .defaultWeight(),
-            provider = ImageProvider(
-                resId = if (bluetoothState) R.drawable.bluetooth_on_icon else R.drawable.bluetooth_off_icon
-            ),
-            contentDescription = null
+        ControlWidget2Button(
+            rowScope = this,
+            context = context,
+            name = ControlWidget2Receiver.bluetoothState.key.name,
+            currState = bluetoothState,
+            icons = listOf(R.drawable.bluetooth_on_icon, R.drawable.bluetooth_off_icon)
         )
-        Image(
-            modifier = GlanceModifier
-                .fillMaxHeight()
-                .defaultWeight(),
-            provider = ImageProvider(
-                resId = if (gpsState) R.drawable.gps_on_icon else R.drawable.gps_off_icon
-            ),
-            contentDescription = null
+        ControlWidget2Button(
+            rowScope = this,
+            context = context,
+            name = ControlWidget2Receiver.gpsState.key.name,
+            currState = gpsState,
+            icons = listOf(R.drawable.gps_on_icon, R.drawable.gps_off_icon)
         )
 
 //        val context = LocalContext.current
@@ -85,6 +82,34 @@ fun ControlWidget2Content(
 //                .fillMaxSize()
 //                .defaultWeight()
 //        )
+    }
+}
+
+@Composable
+fun ControlWidget2Button(
+    rowScope: RowScope,
+    context: Context,
+    name: String,
+    currState: Boolean,
+    icons: List<Int>
+) {
+    with(rowScope) {
+        Image(
+            modifier = GlanceModifier
+                .fillMaxHeight()
+                .defaultWeight()
+                .clickable(
+                    onClick = actionRunCallback<CommandToControlWidget2Action>(
+                        actionParametersOf(
+                            ActionParameters.Key<Boolean>(name) to !currState
+                        )
+                    )
+                ),
+            provider = ImageProvider(
+                resId = if (currState) icons[0] else icons[1]
+            ),
+            contentDescription = null
+        )
     }
 }
 

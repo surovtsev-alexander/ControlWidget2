@@ -13,6 +13,23 @@ import com.surovtsev.controlwidget2.widget.receiver.ControlWidget2Receiver
 import logcat.logcat
 
 
+class CommandToControlWidget2Action(
+): ActionCallback {
+    companion object {
+        const val commandToControlWidget2 = "COMMAND_TO_CONTROL_WIDGET_2"
+    }
+
+    override suspend fun onRun(context: Context, glanceId: GlanceId, parameters: ActionParameters) {
+        val intent = Intent(context, ControlWidget2Receiver::class.java).apply {
+            action = commandToControlWidget2
+            parameters.asMap().map { (key, value) ->
+                putExtra(key.toString(), value as Boolean)
+            }
+        }
+        context.sendBroadcast(intent)
+    }
+}
+
 class AddWaterClickAction : ActionCallback {
     override suspend fun onRun(
         context: Context,

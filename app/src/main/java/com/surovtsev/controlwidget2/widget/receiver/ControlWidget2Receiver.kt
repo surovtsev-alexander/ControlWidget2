@@ -95,12 +95,8 @@ class ControlWidget2Receiver: GlanceAppWidgetReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
         super.onReceive(context, intent)
-    }
 
-    private suspend fun observeData(
-        context: Context,
-    ) {
-
+        logcat { "onReceive; intent: $intent" }
     }
 
     companion object {
