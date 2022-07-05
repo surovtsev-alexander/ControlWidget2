@@ -14,7 +14,7 @@ buildscript {
     dependencies {
         classpath(ClassPaths.gradle)
         classpath(ClassPaths.kotlinGradlePlugin)
-        classpath(ClassPaths.daggerHiltGradkePlugin)
+        classpath(ClassPaths.daggerHiltGradlePlugin)
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle.kts files
     }
