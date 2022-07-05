@@ -56,7 +56,7 @@ fun ControlWidget2Counter(
     modifier: GlanceModifier,
 ) {
     Text(
-        text = "hilt " + context.getString(
+        text = context.getString(
              R.string.glasses_of_water_format,
             glassesOfWater
         ),
