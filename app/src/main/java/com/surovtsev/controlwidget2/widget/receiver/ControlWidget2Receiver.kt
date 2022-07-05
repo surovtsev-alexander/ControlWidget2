@@ -3,10 +3,12 @@ package com.surovtsev.controlwidget2.widget.receiver
 import android.annotation.SuppressLint
 import android.appwidget.AppWidgetManager
 import android.bluetooth.BluetoothAdapter
+import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.location.LocationManager
 import android.net.wifi.WifiManager
+import android.provider.Settings
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.glance.appwidget.GlanceAppWidget
@@ -142,18 +144,33 @@ class ControlWidget2Receiver: GlanceAppWidgetReceiver() {
                                 bluetoothAdapter.disable()
                             }
                         }
-//                        gpsState.key.name -> {
-//                            val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
-//                            if (enable) {
-//                                context.startService(intent)
-//                            } else {
-//                                context.stopService(intent)
-//                            }
-//                        }
+                        gpsState.key.name -> {
+                            val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
+                            intent.setPackage(context.packageName)
+                            val ii = convertImplicitIntentToExplicitIntent(intent, context)
+                            if (enable) {
+                                context.startService(intent)
+                            } else {
+                                context.stopService(intent)
+                            }
+                        }
                     }
                 }
             }
         }
+    }
+
+    private fun convertImplicitIntentToExplicitIntent(implicitIntent: Intent, context: Context): Intent? {
+        val pm = context.packageManager
+        val resolveInfoList = pm.queryIntentServices(implicitIntent, 0)
+        if (resolveInfoList == null || resolveInfoList.size != 1) {
+            return null
+        }
+        val serviceInfo = resolveInfoList[0]
+        val component = ComponentName(serviceInfo.serviceInfo.packageName, serviceInfo.serviceInfo.name)
+        val explicitIntent = Intent(implicitIntent)
+        explicitIntent.component = component
+        return explicitIntent
     }
 
     companion object {
@@ -170,7 +187,7 @@ class ControlWidget2Receiver: GlanceAppWidgetReceiver() {
             )
 
             fun getValueOrDefault(
-                pref: Preferences
+                pref: Preferences,
             ): Boolean {
                 return pref[key] ?: defValue
             }
