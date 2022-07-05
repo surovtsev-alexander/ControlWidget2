@@ -1,5 +1,6 @@
 package com.surovtsev.controlwidget2.widget.receiver
 
+import android.annotation.SuppressLint
 import android.appwidget.AppWidgetManager
 import android.bluetooth.BluetoothAdapter
 import android.content.Context
@@ -106,6 +107,7 @@ class ControlWidget2Receiver: GlanceAppWidgetReceiver() {
 
     }
 
+    @SuppressLint("MissingPermission")
     override fun onReceive(context: Context, intent: Intent) {
         super.onReceive(context, intent)
 
@@ -121,7 +123,7 @@ class ControlWidget2Receiver: GlanceAppWidgetReceiver() {
                         wifiState.key.name -> {
                             wifiManager.isWifiEnabled = enable
                         }
-//                        bluetoothState.key.name -> {
+                        bluetoothState.key.name -> {
 //                            if (ActivityCompat.checkSelfPermission(context,
 //                                    Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED
 //                            ) {
@@ -134,12 +136,12 @@ class ControlWidget2Receiver: GlanceAppWidgetReceiver() {
 //                                // for ActivityCompat#requestPermissions for more details.
 //                                return
 //                            }
-//                            if (enable) {
-//                                bluetoothAdapter.enable()
-//                            } else {
-//                                bluetoothAdapter.disable()
-//                            }
-//                        }
+                            if (enable) {
+                                bluetoothAdapter.enable()
+                            } else {
+                                bluetoothAdapter.disable()
+                            }
+                        }
 //                        gpsState.key.name -> {
 //                            val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
 //                            if (enable) {
