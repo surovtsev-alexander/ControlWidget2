@@ -1,3 +1,4 @@
+/*
 pluginManagement {
     repositories {
         gradlePluginPortal()
@@ -13,5 +14,6 @@ dependencyResolutionManagement {
         maven { url 'https://androidx.dev/snapshots/latest/artifacts/repository' }
     }
 }
+ */
 rootProject.name = "ControlWidget2"
 include ':app'

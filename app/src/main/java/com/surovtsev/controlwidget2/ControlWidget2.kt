@@ -7,6 +7,7 @@ import androidx.glance.GlanceModifier
 import androidx.glance.appwidget.*
 import androidx.glance.layout.fillMaxSize
 import androidx.glance.layout.padding
+import dagger.hilt.android.AndroidEntryPoint
 
 class ControlWidget2: GlanceAppWidget() {
 
@@ -32,6 +33,8 @@ class ControlWidget2: GlanceAppWidget() {
     }
 }
 
+
+@AndroidEntryPoint
 class ControlWidget2Receiver: GlanceAppWidgetReceiver() {
     override val glanceAppWidget: GlanceAppWidget = ControlWidget2()
 }
