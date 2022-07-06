@@ -19,6 +19,7 @@ import com.surovtsev.controlwidget2.widget.callback.CommandToControlWidget2Actio
 import com.surovtsev.controlwidget2.widget.helper.ControlWidget2Updater
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.launch
 import logcat.logcat
 import java.util.concurrent.atomic.AtomicIntegerFieldUpdater
 import javax.inject.Inject
@@ -28,8 +29,6 @@ import javax.inject.Inject
 class ControlWidget2Receiver: GlanceAppWidgetReceiver() {
 
     override val glanceAppWidget: GlanceAppWidget = ControlWidget2()
-
-    private val coroutineScope = MainScope()
 
     @Inject
     lateinit var controlsInformationUseCase: ControlsInformationUseCase
@@ -44,7 +43,9 @@ class ControlWidget2Receiver: GlanceAppWidgetReceiver() {
     lateinit var bluetoothAdapter: BluetoothAdapter
 
     @Inject
-    lateinit var controlwidget2Updater: ControlWidget2Updater
+    lateinit var controlWidget2Updater: ControlWidget2Updater
+
+    private val coroutinesScope = MainScope()
 
     override fun onUpdate(
         context: Context,
@@ -54,6 +55,13 @@ class ControlWidget2Receiver: GlanceAppWidgetReceiver() {
         logcat { "onUpdate+" }
         logcat { "appWidgetIds: ${appWidgetIds.toList()}" }
         super.onUpdate(context, appWidgetManager, appWidgetIds)
+
+        coroutinesScope.launch {
+            controlWidget2Updater.refreshState(
+                glanceAppWidget
+            )
+        }
+
         logcat { "onUpdate-" }
     }
 

@@ -1,11 +1,11 @@
 package com.surovtsev.controlwidget2.widget.helper
 
-import android.bluetooth.BluetoothAdapter
 import android.content.Context
-import android.net.wifi.WifiManager
+import androidx.glance.appwidget.GlanceAppWidget
 import androidx.glance.appwidget.GlanceAppWidgetManager
 import androidx.glance.appwidget.state.updateAppWidgetState
 import androidx.glance.state.PreferencesGlanceStateDefinition
+import com.surovtsev.controlwidget2.features.controlwidget2.domain.model.ControlsInformation
 import com.surovtsev.controlwidget2.features.controlwidget2.domain.repository.ControlsInformationRepo
 import com.surovtsev.controlwidget2.widget.ControlWidget2
 import com.surovtsev.controlwidget2.widget.receiver.ControlWidget2Receiver
@@ -20,9 +20,6 @@ import javax.inject.Singleton
 @Singleton
 class ControlWidget2Updater @Inject constructor(
     private val controlsInformationRepo: ControlsInformationRepo,
-    private val wifiManager: WifiManager,
-    private val bluetoothAdapter: BluetoothAdapter,
-    private val locationManager: WifiManager,
     @ApplicationContext private val context: Context,
 ) {
     private val coroutineScope = MainScope()
@@ -39,21 +36,39 @@ class ControlWidget2Updater @Inject constructor(
             val glanceAppWidget = ControlWidget2()
             logcat { "updateStateLoop; controlsInformation: $controlsInformation" }
 //            logcat { "updateJob; state: ${ControlWidget2Receiver.updateJob?.isActive}; ${ControlWidget2Receiver.updateJob?.isCancelled}; ${ControlWidget2Receiver.updateJob?.isCompleted}" }
-
-            val glanceIds = GlanceAppWidgetManager(context).getGlanceIds(ControlWidget2::class.java)
-
-            glanceIds.map { glanceId ->
-                logcat { "updateState; glanceId: $glanceId" }
-                updateAppWidgetState(context, PreferencesGlanceStateDefinition, glanceId) { prefs ->
-                    prefs.toMutablePreferences().apply {
-                        this[ControlWidget2Receiver.wifiState.key] = controlsInformation.wifiEnabled
-                        this[ControlWidget2Receiver.bluetoothState.key] = controlsInformation.bluetoothEnabled
-                        this[ControlWidget2Receiver.gpsState.key] = controlsInformation.gpsEnabled
-                    }
-                }
-                glanceAppWidget.update(context, glanceId)
-            }
+            refreshStateHelper(
+                glanceAppWidget,
+                controlsInformation,
+            )
         }
         logcat { "updateStateLoop: done" }
+    }
+
+    suspend fun refreshState(
+        glanceAppWidget: GlanceAppWidget
+    ) {
+        refreshStateHelper(
+            glanceAppWidget,
+            controlsInformationRepo.controlsInfoStateFlow.value
+        )
+    }
+
+    private suspend fun refreshStateHelper(
+        glanceAppWidget: GlanceAppWidget,
+        controlsInformation: ControlsInformation,
+    ) {
+        val glanceIds = GlanceAppWidgetManager(context).getGlanceIds(ControlWidget2::class.java)
+
+        glanceIds.map { glanceId ->
+            logcat { "updateState; glanceId: $glanceId" }
+            updateAppWidgetState(context, PreferencesGlanceStateDefinition, glanceId) { prefs ->
+                prefs.toMutablePreferences().apply {
+                    this[ControlWidget2Receiver.wifiState.key] = controlsInformation.wifiEnabled
+                    this[ControlWidget2Receiver.bluetoothState.key] = controlsInformation.bluetoothEnabled
+                    this[ControlWidget2Receiver.gpsState.key] = controlsInformation.gpsEnabled
+                }
+            }
+            glanceAppWidget.update(context, glanceId)
+        }
     }
 }
