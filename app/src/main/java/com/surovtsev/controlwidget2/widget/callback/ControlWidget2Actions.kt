@@ -20,6 +20,8 @@ class CommandToControlWidget2Action(
     }
 
     override suspend fun onRun(context: Context, glanceId: GlanceId, parameters: ActionParameters) {
+        logcat { "onRun; glanceId: $glanceId" }
+
         val intent = Intent(context, ControlWidget2Receiver::class.java).apply {
             action = commandToControlWidget2
             parameters.asMap().map { (key, value) ->

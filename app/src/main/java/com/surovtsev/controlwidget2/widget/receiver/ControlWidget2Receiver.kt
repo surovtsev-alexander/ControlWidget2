@@ -83,10 +83,12 @@ class ControlWidget2Receiver: GlanceAppWidgetReceiver() {
     ) {
         controlsInformationRepo.controlsInfoStateFlow.collectLatest { controlsInformation ->
             logcat { "updateState; controlsInformation: $controlsInformation" }
+            logcat { "updateJob; state: ${updateJob?.isActive}; ${updateJob?.isCancelled}; ${updateJob?.isCompleted}" }
 
             val glanceIds = GlanceAppWidgetManager(context).getGlanceIds(ControlWidget2::class.java)
 
             glanceIds.map { glanceId ->
+                logcat { "updateState; glanceId: $glanceId" }
                 updateAppWidgetState(context, PreferencesGlanceStateDefinition, glanceId) { prefs ->
                     prefs.toMutablePreferences().apply {
                         this[wifiState.key] = controlsInformation.wifiEnabled
