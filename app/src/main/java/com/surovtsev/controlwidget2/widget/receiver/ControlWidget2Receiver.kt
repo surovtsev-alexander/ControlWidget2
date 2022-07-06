@@ -56,8 +56,6 @@ class ControlWidget2Receiver: GlanceAppWidgetReceiver() {
     @Inject
     lateinit var locationManager: LocationManager
 
-    private var updateJob: Job? = null
-
     override fun onUpdate(
         context: Context,
         appWidgetManager: AppWidgetManager,
@@ -82,6 +80,8 @@ class ControlWidget2Receiver: GlanceAppWidgetReceiver() {
         context: Context,
     ) {
         controlsInformationRepo.controlsInfoStateFlow.collectLatest { controlsInformation ->
+            val x: ControlWidget2Receiver = this
+            logcat { "updateState; this: ${System.identityHashCode(x)}"}
             logcat { "updateState; controlsInformation: $controlsInformation" }
             logcat { "updateJob; state: ${updateJob?.isActive}; ${updateJob?.isCancelled}; ${updateJob?.isCompleted}" }
 
@@ -115,6 +115,8 @@ class ControlWidget2Receiver: GlanceAppWidgetReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         super.onReceive(context, intent)
 
+        val x: ControlWidget2Receiver = this
+        logcat { "onReceive; this: ${System.identityHashCode(x)}"}
         logcat { "onReceive; intent: $intent" }
         logcat { "onReceive; updateJob; state: ${updateJob?.isActive}; ${updateJob?.isCancelled}; ${updateJob?.isCompleted}" }
 
@@ -175,6 +177,8 @@ class ControlWidget2Receiver: GlanceAppWidgetReceiver() {
     }
 
     companion object {
+        private var updateJob: Job? = null
+
         data class KeyDescription(
             val key: Preferences.Key<Boolean>,
             val defValue: Boolean = false,
