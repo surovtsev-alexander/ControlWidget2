@@ -116,6 +116,8 @@ class ControlWidget2Receiver: GlanceAppWidgetReceiver() {
         super.onReceive(context, intent)
 
         logcat { "onReceive; intent: $intent" }
+        logcat { "onReceive; updateJob; state: ${updateJob?.isActive}; ${updateJob?.isCancelled}; ${updateJob?.isCompleted}" }
+
 
         if (intent.action == CommandToControlWidget2Action.commandToControlWidget2) {
             val bundle = intent.extras
