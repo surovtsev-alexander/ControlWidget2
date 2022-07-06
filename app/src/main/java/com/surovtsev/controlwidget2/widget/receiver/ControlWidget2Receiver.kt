@@ -6,28 +6,21 @@ import android.bluetooth.BluetoothAdapter
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
-import android.location.LocationManager
 import android.net.wifi.WifiManager
 import android.provider.Settings
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.glance.appwidget.GlanceAppWidget
-import androidx.glance.appwidget.GlanceAppWidgetManager
 import androidx.glance.appwidget.GlanceAppWidgetReceiver
-import androidx.glance.appwidget.state.updateAppWidgetState
-import androidx.glance.state.PreferencesGlanceStateDefinition
 import com.surovtsev.controlwidget2.controlsinfobriadcastreceiver.ControlsInfoBroadcastReceiver
-import com.surovtsev.controlwidget2.features.controlwidget2.domain.repository.ControlsInformationRepo
 import com.surovtsev.controlwidget2.features.controlwidget2.domain.usecase.ControlsInformationUseCase
 import com.surovtsev.controlwidget2.widget.ControlWidget2
 import com.surovtsev.controlwidget2.widget.callback.CommandToControlWidget2Action
+import com.surovtsev.controlwidget2.widget.helper.ControlWidget2Updater
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 import logcat.logcat
+import java.util.concurrent.atomic.AtomicIntegerFieldUpdater
 import javax.inject.Inject
 
 
@@ -45,16 +38,13 @@ class ControlWidget2Receiver: GlanceAppWidgetReceiver() {
     lateinit var controlsInfoBroadcastReceiver: ControlsInfoBroadcastReceiver
 
     @Inject
-    lateinit var controlsInformationRepo: ControlsInformationRepo
-
-    @Inject
     lateinit var wifiManager: WifiManager
 
     @Inject
     lateinit var bluetoothAdapter: BluetoothAdapter
 
     @Inject
-    lateinit var locationManager: LocationManager
+    lateinit var controlwidget2Updater: ControlWidget2Updater
 
     override fun onUpdate(
         context: Context,
@@ -65,41 +55,6 @@ class ControlWidget2Receiver: GlanceAppWidgetReceiver() {
         logcat { "appWidgetIds: ${appWidgetIds.toList()}" }
         super.onUpdate(context, appWidgetManager, appWidgetIds)
         logcat { "onUpdate-" }
-
-        if (updateJob == null) {
-            SupervisorJob().also {
-                updateJob = it
-                coroutineScope.launch(it) {
-                    updateState(context)
-                }
-            }
-        }
-    }
-
-    private suspend fun updateState(
-        context: Context,
-    ) {
-        controlsInformationRepo.controlsInfoStateFlow.collectLatest { controlsInformation ->
-            val x: ControlWidget2Receiver = this
-            logcat { "updateState; this: ${System.identityHashCode(x)}"}
-            logcat { "updateState; controlsInformation: $controlsInformation" }
-            logcat { "updateJob; state: ${updateJob?.isActive}; ${updateJob?.isCancelled}; ${updateJob?.isCompleted}" }
-
-            val glanceIds = GlanceAppWidgetManager(context).getGlanceIds(ControlWidget2::class.java)
-
-            glanceIds.map { glanceId ->
-                logcat { "updateState; glanceId: $glanceId" }
-                updateAppWidgetState(context, PreferencesGlanceStateDefinition, glanceId) { prefs ->
-                    prefs.toMutablePreferences().apply {
-                        this[wifiState.key] = controlsInformation.wifiEnabled
-                        this[bluetoothState.key] = controlsInformation.bluetoothEnabled
-                        this[gpsState.key] = controlsInformation.gpsEnabled
-                    }
-                }
-                glanceAppWidget.update(context, glanceId)
-            }
-        }
-        logcat { "updateState: done" }
     }
 
 
@@ -118,7 +73,7 @@ class ControlWidget2Receiver: GlanceAppWidgetReceiver() {
         val x: ControlWidget2Receiver = this
         logcat { "onReceive; this: ${System.identityHashCode(x)}"}
         logcat { "onReceive; intent: $intent" }
-        logcat { "onReceive; updateJob; state: ${updateJob?.isActive}; ${updateJob?.isCancelled}; ${updateJob?.isCompleted}" }
+//        logcat { "onReceive; updateJob; state: ${updateJob?.isActive}; ${updateJob?.isCancelled}; ${updateJob?.isCompleted}" }
 
 
         if (intent.action == CommandToControlWidget2Action.commandToControlWidget2) {
@@ -177,8 +132,6 @@ class ControlWidget2Receiver: GlanceAppWidgetReceiver() {
     }
 
     companion object {
-        private var updateJob: Job? = null
-
         data class KeyDescription(
             val key: Preferences.Key<Boolean>,
             val defValue: Boolean = false,
