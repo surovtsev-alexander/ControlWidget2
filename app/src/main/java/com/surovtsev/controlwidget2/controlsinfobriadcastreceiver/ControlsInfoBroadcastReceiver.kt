@@ -9,15 +9,13 @@ import android.location.LocationManager
 import android.net.wifi.WifiManager
 import com.surovtsev.controlwidget2.features.controlwidget2.domain.repository.ControlsInformationRepo
 import logcat.logcat
-import javax.inject.Inject
 
-class ControlsInfoBroadcastReceiver @Inject constructor(
+
+class ControlsInfoBroadcastReceiver(
     private val controlsInformationRepo: ControlsInformationRepo,
 ): BroadcastReceiver() {
 
     companion object {
-        const val wifi_update_action = WifiManager.WIFI_STATE_CHANGED_ACTION
-
         val actions = listOf(
             WifiManager.WIFI_STATE_CHANGED_ACTION,
             BluetoothAdapter.ACTION_STATE_CHANGED,
