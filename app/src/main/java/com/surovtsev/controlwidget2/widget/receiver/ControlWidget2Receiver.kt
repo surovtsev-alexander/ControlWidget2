@@ -145,14 +145,11 @@ class ControlWidget2Receiver: GlanceAppWidgetReceiver() {
                             }
                         }
                         gpsState.key.name -> {
-                            val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
-                            intent.setPackage(context.packageName)
-                            val ii = convertImplicitIntentToExplicitIntent(intent, context)
-                            if (enable) {
-                                context.startService(intent)
-                            } else {
-                                context.stopService(intent)
-                            }
+                            context.startActivity(
+                                Intent(
+                                    Settings.ACTION_LOCATION_SOURCE_SETTINGS)
+                                    .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                            )
                         }
                     }
                 }
