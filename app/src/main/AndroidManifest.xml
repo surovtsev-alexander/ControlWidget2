@@ -27,7 +27,7 @@
         android:theme="@style/Theme.ControlWidget2">
 
         <receiver
-            android:name=".controlwidget2.receiver.ControlWidget2Receiver"
+            android:name=".controlwidget2.receiver.WidgetReceiver"
             android:enabled="@bool/glance_appwidget_available"
             android:exported="false">
             <intent-filter>

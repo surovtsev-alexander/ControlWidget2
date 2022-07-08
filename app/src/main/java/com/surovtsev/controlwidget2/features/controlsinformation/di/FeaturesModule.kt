@@ -1,7 +1,7 @@
-package com.surovtsev.controlwidget2.features.controlwidget2.di
+package com.surovtsev.controlwidget2.features.controlsinformation.di
 
-import com.surovtsev.controlwidget2.features.controlwidget2.domain.usecase.ControlsInformationUseCase
-import com.surovtsev.controlwidget2.features.controlwidget2.domain.usecase.ControlsInformationUseCaseImp
+import com.surovtsev.controlwidget2.features.controlsinformation.domain.usecase.ControlsInformationUseCase
+import com.surovtsev.controlwidget2.features.controlsinformation.domain.usecase.ControlsInformationUseCaseImp
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

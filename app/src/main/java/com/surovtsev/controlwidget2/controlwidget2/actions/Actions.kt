@@ -9,7 +9,7 @@ import androidx.glance.appwidget.action.ActionCallback
 import androidx.glance.appwidget.state.updateAppWidgetState
 import androidx.glance.state.PreferencesGlanceStateDefinition
 import com.surovtsev.controlwidget2.controlwidget2.ControlWidget2
-import com.surovtsev.controlwidget2.controlwidget2.receiver.ControlWidget2Receiver
+import com.surovtsev.controlwidget2.controlwidget2.receiver.WidgetReceiver
 import com.surovtsev.controlwidget2.controlwidget2.receiver.helpers.CommandsReceiver.Companion.commandToControlWidget2
 import logcat.logcat
 
@@ -77,7 +77,7 @@ class Refresh: ActionCallback {
         logcat { "onRun" }
         val intent =Intent(
             context,
-            ControlWidget2Receiver::class.java
+            WidgetReceiver::class.java
         ).apply {
             action = UPDATE_ACTION
         }

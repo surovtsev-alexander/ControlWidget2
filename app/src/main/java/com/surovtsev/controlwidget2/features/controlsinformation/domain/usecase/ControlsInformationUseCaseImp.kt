@@ -1,9 +1,9 @@
-package com.surovtsev.controlwidget2.features.controlwidget2.domain.usecase
+package com.surovtsev.controlwidget2.features.controlsinformation.domain.usecase
 
 import android.bluetooth.BluetoothAdapter
 import android.location.LocationManager
 import android.net.wifi.WifiManager
-import com.surovtsev.controlwidget2.features.controlwidget2.domain.model.ControlsInformation
+import com.surovtsev.controlwidget2.features.controlsinformation.domain.model.ControlsInformation
 import javax.inject.Inject
 
 class ControlsInformationUseCaseImp @Inject constructor(

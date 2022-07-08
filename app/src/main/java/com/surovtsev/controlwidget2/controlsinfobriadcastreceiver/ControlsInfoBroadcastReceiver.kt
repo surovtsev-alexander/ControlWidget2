@@ -7,7 +7,7 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.location.LocationManager
 import android.net.wifi.WifiManager
-import com.surovtsev.controlwidget2.features.controlwidget2.domain.repository.ControlsInformationRepo
+import com.surovtsev.controlwidget2.features.controlsinformation.domain.repository.ControlsInformationRepo
 import logcat.logcat
 
 

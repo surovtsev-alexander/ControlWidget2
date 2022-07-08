@@ -2,6 +2,8 @@ package com.surovtsev.controlwidget2.controlwidget2.ui
 
 import kotlinx.coroutines.*
 
+
+// TODO: remove file
 fun main() {
     val scope = CoroutineScope(Job() + Dispatchers.Default)
     scope.launch { test(scope, 0, 500, 1200) }

@@ -1,15 +1,14 @@
 package com.surovtsev.controlwidget2.controlwidget2.receiver
 
-import android.annotation.SuppressLint
 import android.appwidget.AppWidgetManager
 import android.content.Context
 import android.content.Intent
 import androidx.glance.appwidget.GlanceAppWidget
 import androidx.glance.appwidget.GlanceAppWidgetReceiver
 import com.surovtsev.controlwidget2.controlsinfobriadcastreceiver.ControlsInfoBroadcastReceiver
-import com.surovtsev.controlwidget2.features.controlwidget2.domain.usecase.ControlsInformationUseCase
 import com.surovtsev.controlwidget2.controlwidget2.ControlWidget2
 import com.surovtsev.controlwidget2.controlwidget2.helpers.ControlsInfoAndPreferencesBridge
+import com.surovtsev.controlwidget2.features.controlsinformation.domain.usecase.ControlsInformationUseCase
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
@@ -18,7 +17,7 @@ import javax.inject.Inject
 
 
 @AndroidEntryPoint
-class ControlWidget2Receiver: GlanceAppWidgetReceiver() {
+class WidgetReceiver: GlanceAppWidgetReceiver() {
 
     override val glanceAppWidget: GlanceAppWidget = ControlWidget2()
 
@@ -74,11 +73,10 @@ class ControlWidget2Receiver: GlanceAppWidgetReceiver() {
         logcat { "onDeleted" }
     }
 
-    @SuppressLint("MissingPermission")
     override fun onReceive(context: Context, intent: Intent) {
         super.onReceive(context, intent)
 
-        val x: ControlWidget2Receiver = this
+        val x: WidgetReceiver = this
         logcat { "onReceive; this: ${System.identityHashCode(x)}"}
         logcat { "onReceive; intent: $intent" }
     }

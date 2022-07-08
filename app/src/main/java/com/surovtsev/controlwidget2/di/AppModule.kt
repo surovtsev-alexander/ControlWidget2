@@ -4,7 +4,7 @@ import android.bluetooth.BluetoothAdapter
 import android.content.Context
 import android.net.wifi.WifiManager
 import com.surovtsev.controlwidget2.controlsinfobriadcastreceiver.ControlsInfoBroadcastReceiver
-import com.surovtsev.controlwidget2.features.controlwidget2.domain.repository.ControlsInformationRepo
+import com.surovtsev.controlwidget2.features.controlsinformation.domain.repository.ControlsInformationRepo
 import com.surovtsev.controlwidget2.controlwidget2.receiver.helpers.CommandsReceiver
 import dagger.Module
 import dagger.Provides

@@ -1,4 +1,4 @@
-package com.surovtsev.controlwidget2.features.controlwidget2.domain.model
+package com.surovtsev.controlwidget2.features.controlsinformation.domain.model
 
 data class ControlsInformation(
     val wifiEnabled: Boolean,
