@@ -1,17 +1,15 @@
-package com.surovtsev.controlwidget2.widget.receiver
+package com.surovtsev.controlwidget2.controlwidget2.receiver
 
 import android.annotation.SuppressLint
 import android.appwidget.AppWidgetManager
-import android.bluetooth.BluetoothAdapter
 import android.content.Context
 import android.content.Intent
-import android.net.wifi.WifiManager
 import androidx.glance.appwidget.GlanceAppWidget
 import androidx.glance.appwidget.GlanceAppWidgetReceiver
 import com.surovtsev.controlwidget2.controlsinfobriadcastreceiver.ControlsInfoBroadcastReceiver
 import com.surovtsev.controlwidget2.features.controlwidget2.domain.usecase.ControlsInformationUseCase
-import com.surovtsev.controlwidget2.widget.ControlWidget2
-import com.surovtsev.controlwidget2.widget.helper.ControlWidget2Updater
+import com.surovtsev.controlwidget2.controlwidget2.ControlWidget2
+import com.surovtsev.controlwidget2.controlwidget2.helper.ControlWidget2Updater
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch

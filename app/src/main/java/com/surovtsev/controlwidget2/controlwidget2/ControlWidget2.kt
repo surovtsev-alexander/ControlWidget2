@@ -1,17 +1,13 @@
-package com.surovtsev.controlwidget2.widget
+package com.surovtsev.controlwidget2.controlwidget2
 
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.glance.GlanceModifier
 import androidx.glance.appwidget.GlanceAppWidget
 import androidx.glance.appwidget.appWidgetBackground
-import androidx.glance.appwidget.background
-import androidx.glance.appwidget.cornerRadius
 import androidx.glance.layout.fillMaxSize
 import androidx.glance.layout.padding
-import com.surovtsev.controlwidget2.widget.ui.ControlWidget2Content
-import logcat.logcat
+import com.surovtsev.controlwidget2.controlwidget2.ui.ControlWidget2Content
 
 class ControlWidget2: GlanceAppWidget() {
 

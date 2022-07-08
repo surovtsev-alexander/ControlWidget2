@@ -1,4 +1,4 @@
-package com.surovtsev.controlwidget2.widget.callback
+package com.surovtsev.controlwidget2.controlwidget2.callback
 
 import android.content.Context
 import android.content.Intent
@@ -8,9 +8,9 @@ import androidx.glance.action.ActionParameters
 import androidx.glance.appwidget.action.ActionCallback
 import androidx.glance.appwidget.state.updateAppWidgetState
 import androidx.glance.state.PreferencesGlanceStateDefinition
-import com.surovtsev.controlwidget2.widget.ControlWidget2
-import com.surovtsev.controlwidget2.widget.receiver.ControlWidget2Receiver
-import com.surovtsev.controlwidget2.widget.receiver.helpers.CommandsReceiver.Companion.commandToControlWidget2
+import com.surovtsev.controlwidget2.controlwidget2.ControlWidget2
+import com.surovtsev.controlwidget2.controlwidget2.receiver.ControlWidget2Receiver
+import com.surovtsev.controlwidget2.controlwidget2.receiver.helpers.CommandsReceiver.Companion.commandToControlWidget2
 import logcat.logcat
 
 

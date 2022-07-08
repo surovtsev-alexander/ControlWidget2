@@ -1,4 +1,4 @@
-package com.surovtsev.controlwidget2.widget.receiver.helpers
+package com.surovtsev.controlwidget2.controlwidget2.receiver.helpers
 
 import android.annotation.SuppressLint
 import android.bluetooth.BluetoothAdapter

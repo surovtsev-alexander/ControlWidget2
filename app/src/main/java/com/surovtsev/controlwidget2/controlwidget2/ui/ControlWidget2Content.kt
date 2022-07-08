@@ -1,4 +1,4 @@
-package com.surovtsev.controlwidget2.widget.ui
+package com.surovtsev.controlwidget2.controlwidget2.ui
 
 import android.content.Context
 import androidx.compose.runtime.Composable
@@ -18,13 +18,13 @@ import androidx.glance.text.TextAlign
 import androidx.glance.text.TextStyle
 import androidx.glance.unit.ColorProvider
 import com.surovtsev.controlwidget2.R
-import com.surovtsev.controlwidget2.widget.ControlWidget2
-import com.surovtsev.controlwidget2.widget.callback.AddWaterClickAction
-import com.surovtsev.controlwidget2.widget.callback.ClearWaterClickAction
-import com.surovtsev.controlwidget2.widget.callback.CommandToControlWidget2Action
-import com.surovtsev.controlwidget2.widget.receiver.helpers.CommandsReceiver.Companion.bluetoothStateKeyDescription
-import com.surovtsev.controlwidget2.widget.receiver.helpers.CommandsReceiver.Companion.gpsStateKeyDescription
-import com.surovtsev.controlwidget2.widget.receiver.helpers.CommandsReceiver.Companion.wifiStateKeyDescription
+import com.surovtsev.controlwidget2.controlwidget2.ControlWidget2
+import com.surovtsev.controlwidget2.controlwidget2.callback.AddWaterClickAction
+import com.surovtsev.controlwidget2.controlwidget2.callback.ClearWaterClickAction
+import com.surovtsev.controlwidget2.controlwidget2.callback.CommandToControlWidget2Action
+import com.surovtsev.controlwidget2.controlwidget2.receiver.helpers.CommandsReceiver.Companion.bluetoothStateKeyDescription
+import com.surovtsev.controlwidget2.controlwidget2.receiver.helpers.CommandsReceiver.Companion.gpsStateKeyDescription
+import com.surovtsev.controlwidget2.controlwidget2.receiver.helpers.CommandsReceiver.Companion.wifiStateKeyDescription
 
 @Composable
 fun ControlWidget2Content(

@@ -1,4 +1,4 @@
-package com.surovtsev.controlwidget2.widget.ui
+package com.surovtsev.controlwidget2.controlwidget2.ui
 
 import kotlinx.coroutines.*
 

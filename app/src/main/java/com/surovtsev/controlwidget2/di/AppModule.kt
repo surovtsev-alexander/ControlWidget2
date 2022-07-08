@@ -5,7 +5,7 @@ import android.content.Context
 import android.net.wifi.WifiManager
 import com.surovtsev.controlwidget2.controlsinfobriadcastreceiver.ControlsInfoBroadcastReceiver
 import com.surovtsev.controlwidget2.features.controlwidget2.domain.repository.ControlsInformationRepo
-import com.surovtsev.controlwidget2.widget.receiver.helpers.CommandsReceiver
+import com.surovtsev.controlwidget2.controlwidget2.receiver.helpers.CommandsReceiver
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

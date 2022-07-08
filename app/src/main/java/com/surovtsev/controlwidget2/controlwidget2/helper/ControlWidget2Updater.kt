@@ -1,4 +1,4 @@
-package com.surovtsev.controlwidget2.widget.helper
+package com.surovtsev.controlwidget2.controlwidget2.helper
 
 import android.content.Context
 import androidx.glance.appwidget.GlanceAppWidget
@@ -7,10 +7,10 @@ import androidx.glance.appwidget.state.updateAppWidgetState
 import androidx.glance.state.PreferencesGlanceStateDefinition
 import com.surovtsev.controlwidget2.features.controlwidget2.domain.model.ControlsInformation
 import com.surovtsev.controlwidget2.features.controlwidget2.domain.repository.ControlsInformationRepo
-import com.surovtsev.controlwidget2.widget.ControlWidget2
-import com.surovtsev.controlwidget2.widget.receiver.helpers.CommandsReceiver.Companion.bluetoothStateKeyDescription
-import com.surovtsev.controlwidget2.widget.receiver.helpers.CommandsReceiver.Companion.gpsStateKeyDescription
-import com.surovtsev.controlwidget2.widget.receiver.helpers.CommandsReceiver.Companion.wifiStateKeyDescription
+import com.surovtsev.controlwidget2.controlwidget2.ControlWidget2
+import com.surovtsev.controlwidget2.controlwidget2.receiver.helpers.CommandsReceiver.Companion.bluetoothStateKeyDescription
+import com.surovtsev.controlwidget2.controlwidget2.receiver.helpers.CommandsReceiver.Companion.gpsStateKeyDescription
+import com.surovtsev.controlwidget2.controlwidget2.receiver.helpers.CommandsReceiver.Companion.wifiStateKeyDescription
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.flow.collectLatest
