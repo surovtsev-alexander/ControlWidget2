@@ -16,12 +16,7 @@ class ControlWidget2: GlanceAppWidget() {
         ControlWidget2Content(
             modifier = GlanceModifier
                 .fillMaxSize()
-//                .background(
-//                    day = Color.Cyan,
-//                    night = Color.DarkGray,
-//                )
                 .appWidgetBackground()
-//                .cornerRadius(16.dp)
                 .padding(8.dp),
         )
     }
