@@ -10,19 +10,16 @@ import androidx.glance.appwidget.state.updateAppWidgetState
 import androidx.glance.state.PreferencesGlanceStateDefinition
 import com.surovtsev.controlwidget2.widget.ControlWidget2
 import com.surovtsev.controlwidget2.widget.receiver.ControlWidget2Receiver
+import com.surovtsev.controlwidget2.widget.receiver.helpers.CommandsReceiver.Companion.commandToControlWidget2
 import logcat.logcat
 
 
 class CommandToControlWidget2Action(
 ): ActionCallback {
-    companion object {
-        const val commandToControlWidget2 = "COMMAND_TO_CONTROL_WIDGET_2"
-    }
-
     override suspend fun onRun(context: Context, glanceId: GlanceId, parameters: ActionParameters) {
         logcat { "onRun; glanceId: $glanceId" }
 
-        val intent = Intent(context, ControlWidget2Receiver::class.java).apply {
+        val intent = Intent().apply {
             action = commandToControlWidget2
             parameters.asMap().map { (key, value) ->
                 putExtra(key.toString(), value as Boolean)

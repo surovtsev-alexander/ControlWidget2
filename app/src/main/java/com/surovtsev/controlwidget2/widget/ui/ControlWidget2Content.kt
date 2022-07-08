@@ -22,7 +22,9 @@ import com.surovtsev.controlwidget2.widget.ControlWidget2
 import com.surovtsev.controlwidget2.widget.callback.AddWaterClickAction
 import com.surovtsev.controlwidget2.widget.callback.ClearWaterClickAction
 import com.surovtsev.controlwidget2.widget.callback.CommandToControlWidget2Action
-import com.surovtsev.controlwidget2.widget.receiver.ControlWidget2Receiver
+import com.surovtsev.controlwidget2.widget.receiver.helpers.CommandsReceiver.Companion.bluetoothStateKeyDescription
+import com.surovtsev.controlwidget2.widget.receiver.helpers.CommandsReceiver.Companion.gpsStateKeyDescription
+import com.surovtsev.controlwidget2.widget.receiver.helpers.CommandsReceiver.Companion.wifiStateKeyDescription
 
 @Composable
 fun ControlWidget2Content(
@@ -33,30 +35,30 @@ fun ControlWidget2Content(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         val prefs = currentState<Preferences>()
-        val wifiState = ControlWidget2Receiver.wifiState.getValueOrDefault(prefs)
-        val bluetoothState = ControlWidget2Receiver.bluetoothState.getValueOrDefault(prefs)
-        val gpsState = ControlWidget2Receiver.gpsState.getValueOrDefault(prefs)
+        val wifiState = wifiStateKeyDescription.getValueOrDefault(prefs)
+        val bluetoothState = bluetoothStateKeyDescription.getValueOrDefault(prefs)
+        val gpsState = gpsStateKeyDescription.getValueOrDefault(prefs)
 
         val context = LocalContext.current
 
         ControlWidget2Button(
             rowScope = this,
             context = context,
-            name = ControlWidget2Receiver.wifiState.key.name,
+            name = wifiStateKeyDescription.key.name,
             currState = wifiState,
             icons = listOf(R.drawable.wifi_on_icon, R.drawable.wifi_off_icon)
         )
         ControlWidget2Button(
             rowScope = this,
             context = context,
-            name = ControlWidget2Receiver.bluetoothState.key.name,
+            name = bluetoothStateKeyDescription.key.name,
             currState = bluetoothState,
             icons = listOf(R.drawable.bluetooth_on_icon, R.drawable.bluetooth_off_icon)
         )
         ControlWidget2Button(
             rowScope = this,
             context = context,
-            name = ControlWidget2Receiver.gpsState.key.name,
+            name = gpsStateKeyDescription.key.name,
             currState = gpsState,
             icons = listOf(R.drawable.gps_on_icon, R.drawable.gps_off_icon)
         )

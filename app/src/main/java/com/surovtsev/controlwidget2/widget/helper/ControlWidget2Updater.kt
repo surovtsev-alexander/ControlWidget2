@@ -8,7 +8,9 @@ import androidx.glance.state.PreferencesGlanceStateDefinition
 import com.surovtsev.controlwidget2.features.controlwidget2.domain.model.ControlsInformation
 import com.surovtsev.controlwidget2.features.controlwidget2.domain.repository.ControlsInformationRepo
 import com.surovtsev.controlwidget2.widget.ControlWidget2
-import com.surovtsev.controlwidget2.widget.receiver.ControlWidget2Receiver
+import com.surovtsev.controlwidget2.widget.receiver.helpers.CommandsReceiver.Companion.bluetoothStateKeyDescription
+import com.surovtsev.controlwidget2.widget.receiver.helpers.CommandsReceiver.Companion.gpsStateKeyDescription
+import com.surovtsev.controlwidget2.widget.receiver.helpers.CommandsReceiver.Companion.wifiStateKeyDescription
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.flow.collectLatest
@@ -32,10 +34,10 @@ class ControlWidget2Updater @Inject constructor(
 
     private suspend fun updateStateLoop(
     ) {
+        logcat { "starting: updateStateLoop" }
         controlsInformationRepo.controlsInfoStateFlow.collectLatest { controlsInformation ->
             val glanceAppWidget = ControlWidget2()
             logcat { "updateStateLoop; controlsInformation: $controlsInformation" }
-//            logcat { "updateJob; state: ${ControlWidget2Receiver.updateJob?.isActive}; ${ControlWidget2Receiver.updateJob?.isCancelled}; ${ControlWidget2Receiver.updateJob?.isCompleted}" }
             refreshStateHelper(
                 glanceAppWidget,
                 controlsInformation,
@@ -59,13 +61,14 @@ class ControlWidget2Updater @Inject constructor(
     ) {
         val glanceIds = GlanceAppWidgetManager(context).getGlanceIds(ControlWidget2::class.java)
 
+        logcat { "refreshStateHelper; glaceIds: $glanceIds" }
         glanceIds.map { glanceId ->
             logcat { "updateState; glanceId: $glanceId" }
             updateAppWidgetState(context, PreferencesGlanceStateDefinition, glanceId) { prefs ->
                 prefs.toMutablePreferences().apply {
-                    this[ControlWidget2Receiver.wifiState.key] = controlsInformation.wifiEnabled
-                    this[ControlWidget2Receiver.bluetoothState.key] = controlsInformation.bluetoothEnabled
-                    this[ControlWidget2Receiver.gpsState.key] = controlsInformation.gpsEnabled
+                    this[wifiStateKeyDescription.key] = controlsInformation.wifiEnabled
+                    this[bluetoothStateKeyDescription.key] = controlsInformation.bluetoothEnabled
+                    this[gpsStateKeyDescription.key] = controlsInformation.gpsEnabled
                 }
             }
             glanceAppWidget.update(context, glanceId)

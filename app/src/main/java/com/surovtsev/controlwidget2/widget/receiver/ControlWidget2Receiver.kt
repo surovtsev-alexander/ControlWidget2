@@ -3,25 +3,19 @@ package com.surovtsev.controlwidget2.widget.receiver
 import android.annotation.SuppressLint
 import android.appwidget.AppWidgetManager
 import android.bluetooth.BluetoothAdapter
-import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.net.wifi.WifiManager
-import android.provider.Settings
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.glance.appwidget.GlanceAppWidget
 import androidx.glance.appwidget.GlanceAppWidgetReceiver
 import com.surovtsev.controlwidget2.controlsinfobriadcastreceiver.ControlsInfoBroadcastReceiver
 import com.surovtsev.controlwidget2.features.controlwidget2.domain.usecase.ControlsInformationUseCase
 import com.surovtsev.controlwidget2.widget.ControlWidget2
-import com.surovtsev.controlwidget2.widget.callback.CommandToControlWidget2Action
 import com.surovtsev.controlwidget2.widget.helper.ControlWidget2Updater
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import logcat.logcat
-import java.util.concurrent.atomic.AtomicIntegerFieldUpdater
 import javax.inject.Inject
 
 
@@ -46,6 +40,20 @@ class ControlWidget2Receiver: GlanceAppWidgetReceiver() {
     lateinit var controlWidget2Updater: ControlWidget2Updater
 
     private val coroutinesScope = MainScope()
+
+    override fun onEnabled(context: Context?) {
+        super.onEnabled(context)
+
+        logcat { "onEnabled+" }
+
+        coroutinesScope.launch {
+            controlWidget2Updater.refreshState(
+                glanceAppWidget
+            )
+        }
+
+        logcat { "onEnabled-" }
+    }
 
     override fun onUpdate(
         context: Context,
@@ -72,6 +80,7 @@ class ControlWidget2Receiver: GlanceAppWidgetReceiver() {
     ) {
         super.onDeleted(context, appWidgetIds)
 
+        logcat { "onDeleted" }
     }
 
     @SuppressLint("MissingPermission")
@@ -81,92 +90,5 @@ class ControlWidget2Receiver: GlanceAppWidgetReceiver() {
         val x: ControlWidget2Receiver = this
         logcat { "onReceive; this: ${System.identityHashCode(x)}"}
         logcat { "onReceive; intent: $intent" }
-//        logcat { "onReceive; updateJob; state: ${updateJob?.isActive}; ${updateJob?.isCancelled}; ${updateJob?.isCompleted}" }
-
-
-        if (intent.action == CommandToControlWidget2Action.commandToControlWidget2) {
-            val bundle = intent.extras
-
-            bundle?.keySet()?.map { commandName ->
-                val enable = bundle[commandName]?.run { this as Boolean }
-                if (enable != null) {
-                    when(commandName) {
-                        wifiState.key.name -> {
-                            wifiManager.isWifiEnabled = enable
-                        }
-                        bluetoothState.key.name -> {
-//                            if (ActivityCompat.checkSelfPermission(context,
-//                                    Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED
-//                            ) {
-//                                // TODO: Consider calling
-//                                //    ActivityCompat#requestPermissions
-//                                // here to request the missing permissions, and then overriding
-//                                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-//                                //                                          int[] grantResults)
-//                                // to handle the case where the user grants the permission. See the documentation
-//                                // for ActivityCompat#requestPermissions for more details.
-//                                return
-//                            }
-                            if (enable) {
-                                bluetoothAdapter.enable()
-                            } else {
-                                bluetoothAdapter.disable()
-                            }
-                        }
-                        gpsState.key.name -> {
-                            context.startActivity(
-                                Intent(
-                                    Settings.ACTION_LOCATION_SOURCE_SETTINGS)
-                                    .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                            )
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    private fun convertImplicitIntentToExplicitIntent(implicitIntent: Intent, context: Context): Intent? {
-        val pm = context.packageManager
-        val resolveInfoList = pm.queryIntentServices(implicitIntent, 0)
-        if (resolveInfoList == null || resolveInfoList.size != 1) {
-            return null
-        }
-        val serviceInfo = resolveInfoList[0]
-        val component = ComponentName(serviceInfo.serviceInfo.packageName, serviceInfo.serviceInfo.name)
-        val explicitIntent = Intent(implicitIntent)
-        explicitIntent.component = component
-        return explicitIntent
-    }
-
-    companion object {
-        data class KeyDescription(
-            val key: Preferences.Key<Boolean>,
-            val defValue: Boolean = false,
-        ) {
-            constructor(
-                key: String,
-                defValue: Boolean = false,
-            ): this(
-                booleanPreferencesKey(key),
-                defValue,
-            )
-
-            fun getValueOrDefault(
-                pref: Preferences,
-            ): Boolean {
-                return pref[key] ?: defValue
-            }
-        }
-
-        val wifiState = KeyDescription(
-            "WIFI_STATE"
-        )
-        val bluetoothState = KeyDescription(
-            "BLUETOOTH_STATE"
-        )
-        val gpsState = KeyDescription(
-            "GPS_STATE"
-        )
     }
 }
