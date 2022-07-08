@@ -10,7 +10,7 @@ import androidx.glance.appwidget.state.updateAppWidgetState
 import androidx.glance.state.PreferencesGlanceStateDefinition
 import com.surovtsev.controlwidget2.controlwidget2.ControlWidget2
 import com.surovtsev.controlwidget2.controlwidget2.receiver.WidgetReceiver
-import com.surovtsev.controlwidget2.controlwidget2.receiver.helpers.CommandsReceiver.Companion.commandToControlWidget2
+import com.surovtsev.controlwidget2.commandsreceiver.CommandsReceiver.Companion.COMMAND_FROM_UI
 import logcat.logcat
 
 
@@ -20,7 +20,7 @@ class CommandToControlWidget2Action(
         logcat { "onRun; glanceId: $glanceId" }
 
         val intent = Intent().apply {
-            action = commandToControlWidget2
+            action = COMMAND_FROM_UI
             parameters.asMap().map { (key, value) ->
                 putExtra(key.toString(), value as Boolean)
             }

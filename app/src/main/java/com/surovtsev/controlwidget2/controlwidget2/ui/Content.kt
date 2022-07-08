@@ -22,9 +22,9 @@ import com.surovtsev.controlwidget2.controlwidget2.ControlWidget2
 import com.surovtsev.controlwidget2.controlwidget2.actions.AddWaterClickAction
 import com.surovtsev.controlwidget2.controlwidget2.actions.ClearWaterClickAction
 import com.surovtsev.controlwidget2.controlwidget2.actions.CommandToControlWidget2Action
-import com.surovtsev.controlwidget2.controlwidget2.receiver.helpers.CommandsReceiver.Companion.bluetoothStateKeyDescription
-import com.surovtsev.controlwidget2.controlwidget2.receiver.helpers.CommandsReceiver.Companion.gpsStateKeyDescription
-import com.surovtsev.controlwidget2.controlwidget2.receiver.helpers.CommandsReceiver.Companion.wifiStateKeyDescription
+import com.surovtsev.controlwidget2.commandsreceiver.CommandsReceiver.Companion.bluetoothStateKeyDescription
+import com.surovtsev.controlwidget2.commandsreceiver.CommandsReceiver.Companion.gpsStateKeyDescription
+import com.surovtsev.controlwidget2.commandsreceiver.CommandsReceiver.Companion.wifiStateKeyDescription
 
 @Composable
 fun ControlWidget2Content(

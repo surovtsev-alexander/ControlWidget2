@@ -1,4 +1,4 @@
-package com.surovtsev.controlwidget2.controlwidget2.receiver.helpers
+package com.surovtsev.controlwidget2.commandsreceiver
 
 import android.annotation.SuppressLint
 import android.bluetooth.BluetoothAdapter
@@ -21,7 +21,7 @@ class CommandsReceiver(
         context: Context
     ) {
         val intentFilter = IntentFilter().apply {
-            addAction(commandToControlWidget2)
+            addAction(COMMAND_FROM_UI)
         }
         context
             .registerReceiver(
@@ -35,7 +35,7 @@ class CommandsReceiver(
     override fun onReceive(context: Context, intent: Intent) {
         logcat { "onReceive; intent: $intent" }
 
-        if (intent.action == commandToControlWidget2) {
+        if (intent.action == COMMAND_FROM_UI) {
             val bundle = intent.extras
 
             bundle?.keySet()?.map { commandName ->
@@ -78,7 +78,7 @@ class CommandsReceiver(
     }
 
     companion object {
-        const val commandToControlWidget2 = "COMMAND_TO_CONTROL_WIDGET_2"
+        const val COMMAND_FROM_UI = "com.surovtsev.controlwidget2.COMMAND_FROM_UI"
 
         val wifiStateKeyDescription = KeyDescription(
             "WIFI_STATE"
