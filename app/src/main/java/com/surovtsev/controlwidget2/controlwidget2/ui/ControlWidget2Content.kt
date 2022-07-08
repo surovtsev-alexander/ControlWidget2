@@ -19,9 +19,9 @@ import androidx.glance.text.TextStyle
 import androidx.glance.unit.ColorProvider
 import com.surovtsev.controlwidget2.R
 import com.surovtsev.controlwidget2.controlwidget2.ControlWidget2
-import com.surovtsev.controlwidget2.controlwidget2.callback.AddWaterClickAction
-import com.surovtsev.controlwidget2.controlwidget2.callback.ClearWaterClickAction
-import com.surovtsev.controlwidget2.controlwidget2.callback.CommandToControlWidget2Action
+import com.surovtsev.controlwidget2.controlwidget2.actions.AddWaterClickAction
+import com.surovtsev.controlwidget2.controlwidget2.actions.ClearWaterClickAction
+import com.surovtsev.controlwidget2.controlwidget2.actions.CommandToControlWidget2Action
 import com.surovtsev.controlwidget2.controlwidget2.receiver.helpers.CommandsReceiver.Companion.bluetoothStateKeyDescription
 import com.surovtsev.controlwidget2.controlwidget2.receiver.helpers.CommandsReceiver.Companion.gpsStateKeyDescription
 import com.surovtsev.controlwidget2.controlwidget2.receiver.helpers.CommandsReceiver.Companion.wifiStateKeyDescription

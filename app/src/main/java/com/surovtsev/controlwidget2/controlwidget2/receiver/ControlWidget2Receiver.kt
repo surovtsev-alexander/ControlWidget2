@@ -9,7 +9,7 @@ import androidx.glance.appwidget.GlanceAppWidgetReceiver
 import com.surovtsev.controlwidget2.controlsinfobriadcastreceiver.ControlsInfoBroadcastReceiver
 import com.surovtsev.controlwidget2.features.controlwidget2.domain.usecase.ControlsInformationUseCase
 import com.surovtsev.controlwidget2.controlwidget2.ControlWidget2
-import com.surovtsev.controlwidget2.controlwidget2.helper.ControlWidget2Updater
+import com.surovtsev.controlwidget2.controlwidget2.helpers.ControlsInfoAndPreferencesBridge
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
@@ -29,7 +29,7 @@ class ControlWidget2Receiver: GlanceAppWidgetReceiver() {
     lateinit var controlsInfoBroadcastReceiver: ControlsInfoBroadcastReceiver
 
     @Inject
-    lateinit var controlWidget2Updater: ControlWidget2Updater
+    lateinit var controlsInfoAndPreferencesBridge: ControlsInfoAndPreferencesBridge
 
     private val coroutinesScope = MainScope()
 
@@ -56,7 +56,7 @@ class ControlWidget2Receiver: GlanceAppWidgetReceiver() {
         super.onUpdate(context, appWidgetManager, appWidgetIds)
 
         coroutinesScope.launch {
-            controlWidget2Updater.refreshState(
+            controlsInfoAndPreferencesBridge.refreshState(
                 glanceAppWidget
             )
         }

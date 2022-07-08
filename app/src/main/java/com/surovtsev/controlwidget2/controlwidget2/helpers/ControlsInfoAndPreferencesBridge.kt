@@ -1,4 +1,4 @@
-package com.surovtsev.controlwidget2.controlwidget2.helper
+package com.surovtsev.controlwidget2.controlwidget2.helpers
 
 import android.content.Context
 import androidx.glance.appwidget.GlanceAppWidget
@@ -20,7 +20,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class ControlWidget2Updater @Inject constructor(
+class ControlsInfoAndPreferencesBridge @Inject constructor(
     private val controlsInformationRepo: ControlsInformationRepo,
     @ApplicationContext private val context: Context,
 ) {

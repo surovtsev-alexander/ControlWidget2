@@ -1,4 +1,4 @@
-package com.surovtsev.controlwidget2.controlwidget2.callback
+package com.surovtsev.controlwidget2.controlwidget2.actions
 
 import android.content.Context
 import android.content.Intent
