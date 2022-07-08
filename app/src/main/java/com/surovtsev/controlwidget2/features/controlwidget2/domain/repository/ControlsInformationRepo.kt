@@ -15,7 +15,7 @@ import javax.inject.Singleton
 class ControlsInformationRepo @Inject constructor(
     private val wifiManager: WifiManager,
     private val bluetoothAdapter: BluetoothAdapter,
-    private val locationAdapter: LocationManager,
+    private val locationManager: LocationManager,
 ) {
     private val _controlsInfoStateFlow = MutableStateFlow(
         ControlsInformation(
@@ -25,6 +25,16 @@ class ControlsInformationRepo @Inject constructor(
         )
     )
     val controlsInfoStateFlow = _controlsInfoStateFlow.asStateFlow()
+
+    fun init() {
+        updateControlsInfoStateFlow {
+            it.copy(
+                wifiEnabled = wifiManager.isWifiEnabled,
+                bluetoothEnabled = bluetoothAdapter.isEnabled,
+                gpsEnabled = locationManager.isLocationEnabled,
+            )
+        }
+    }
 
     fun updateWifiState() {
         updateControlsInfoStateFlow {
@@ -38,9 +48,9 @@ class ControlsInformationRepo @Inject constructor(
         }
     }
 
-    fun updateLocationAdapter() {
+    fun updateLocationManager() {
         updateControlsInfoStateFlow {
-            it.copy(gpsEnabled = locationAdapter.isLocationEnabled)
+            it.copy(gpsEnabled = locationManager.isLocationEnabled)
         }
     }
 

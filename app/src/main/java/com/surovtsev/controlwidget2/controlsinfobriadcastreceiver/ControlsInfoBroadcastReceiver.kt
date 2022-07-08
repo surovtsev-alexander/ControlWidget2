@@ -16,7 +16,10 @@ class ControlsInfoBroadcastReceiver(
 ): BroadcastReceiver() {
 
     companion object {
+        const val INIT_ACTION = "com.surovtsev.controlwidget2.init_state"
+
         val actions = listOf(
+            INIT_ACTION,
             WifiManager.WIFI_STATE_CHANGED_ACTION,
             BluetoothAdapter.ACTION_STATE_CHANGED,
             LocationManager.PROVIDERS_CHANGED_ACTION,
@@ -41,6 +44,10 @@ class ControlsInfoBroadcastReceiver(
 
 
         when (intent.action) {
+            INIT_ACTION -> {
+                logcat { "init action" }
+                controlsInformationRepo.init()
+            }
             WifiManager.WIFI_STATE_CHANGED_ACTION -> {
                 logcat { "wifi updated" }
                 controlsInformationRepo.updateWifiState()
@@ -51,7 +58,7 @@ class ControlsInfoBroadcastReceiver(
             }
             LocationManager.PROVIDERS_CHANGED_ACTION -> {
                 logcat { "gps updated" }
-                controlsInformationRepo.updateLocationAdapter()
+                controlsInformationRepo.updateLocationManager()
             }
         }
     }

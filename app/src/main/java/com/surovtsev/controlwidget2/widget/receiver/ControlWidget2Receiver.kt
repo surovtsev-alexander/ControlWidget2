@@ -31,26 +31,19 @@ class ControlWidget2Receiver: GlanceAppWidgetReceiver() {
     lateinit var controlsInfoBroadcastReceiver: ControlsInfoBroadcastReceiver
 
     @Inject
-    lateinit var wifiManager: WifiManager
-
-    @Inject
-    lateinit var bluetoothAdapter: BluetoothAdapter
-
-    @Inject
     lateinit var controlWidget2Updater: ControlWidget2Updater
 
     private val coroutinesScope = MainScope()
 
-    override fun onEnabled(context: Context?) {
+    override fun onEnabled(context: Context) {
         super.onEnabled(context)
 
         logcat { "onEnabled+" }
 
-        coroutinesScope.launch {
-            controlWidget2Updater.refreshState(
-                glanceAppWidget
-            )
+        val intent = Intent().apply {
+            action = ControlsInfoBroadcastReceiver.INIT_ACTION
         }
+        context.sendBroadcast(intent)
 
         logcat { "onEnabled-" }
     }
