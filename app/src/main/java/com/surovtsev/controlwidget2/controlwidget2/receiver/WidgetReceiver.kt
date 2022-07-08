@@ -54,11 +54,7 @@ class WidgetReceiver: GlanceAppWidgetReceiver() {
         logcat { "appWidgetIds: ${appWidgetIds.toList()}" }
         super.onUpdate(context, appWidgetManager, appWidgetIds)
 
-        coroutinesScope.launch {
-            controlsInfoAndPreferencesBridge.refreshState(
-                glanceAppWidget
-            )
-        }
+        refreshUIState()
 
         logcat { "onUpdate-" }
     }
@@ -79,5 +75,13 @@ class WidgetReceiver: GlanceAppWidgetReceiver() {
         val x: WidgetReceiver = this
         logcat { "onReceive; this: ${System.identityHashCode(x)}"}
         logcat { "onReceive; intent: $intent" }
+    }
+
+    private fun refreshUIState() {
+        coroutinesScope.launch {
+            controlsInfoAndPreferencesBridge.refreshState(
+                glanceAppWidget
+            )
+        }
     }
 }
