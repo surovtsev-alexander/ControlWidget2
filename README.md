@@ -1,4 +1,4 @@
-#ControlWidget2
+# ControlWidget2
 
 ## Table of contents
 - [About](#about)
