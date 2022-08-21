@@ -48,6 +48,8 @@ class ControlsInfoBroadcastReceiver(
             WifiManager.WIFI_STATE_CHANGED_ACTION,
             BluetoothAdapter.ACTION_STATE_CHANGED,
             LocationManager.PROVIDERS_CHANGED_ACTION,
+            "android.intent.action.SCREEN_ON",
+            "android.intent.action.SCREEN_OFF",
         )
     }
 

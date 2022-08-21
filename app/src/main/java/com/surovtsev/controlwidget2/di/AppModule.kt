@@ -31,6 +31,7 @@ import android.net.wifi.WifiManager
 import com.surovtsev.controlwidget2.controlsinfobriadcastreceiver.ControlsInfoBroadcastReceiver
 import com.surovtsev.controlwidget2.features.controlsinformation.domain.repository.ControlsInformationRepo
 import com.surovtsev.controlwidget2.commandsreceiver.CommandsReceiver
+import com.surovtsev.controlwidget2.screenbroadcastreceiver.ScreenBroadcastReceiver
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -61,6 +62,15 @@ object AppModule {
     ): CommandsReceiver = CommandsReceiver(
         wifiManager,
         bluetoothAdapter
+    ).apply {
+        registerReceiver(context)
+    }
+
+    @Singleton
+    @Provides
+    fun provideScreenBroadcastReceiver(
+        @ApplicationContext context: Context,
+    ): ScreenBroadcastReceiver = ScreenBroadcastReceiver(
     ).apply {
         registerReceiver(context)
     }

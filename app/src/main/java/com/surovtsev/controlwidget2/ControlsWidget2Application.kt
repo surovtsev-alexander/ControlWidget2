@@ -29,6 +29,7 @@ import android.app.Application
 import com.surovtsev.controlwidget2.controlsinfobriadcastreceiver.ControlsInfoBroadcastReceiver
 import com.surovtsev.controlwidget2.controlwidget2.helpers.ControlsInfoAndPreferencesBridge
 import com.surovtsev.controlwidget2.commandsreceiver.CommandsReceiver
+import com.surovtsev.controlwidget2.screenbroadcastreceiver.ScreenBroadcastReceiver
 import dagger.hilt.android.HiltAndroidApp
 import logcat.AndroidLogcatLogger
 import logcat.logcat
@@ -43,6 +44,8 @@ class ControlsWidget2Application: Application() {
     lateinit var commandsReceiver: CommandsReceiver
     @Inject
     lateinit var controlsInfoAndPreferencesBridge: ControlsInfoAndPreferencesBridge
+    @Inject
+    lateinit var screenBroadcastReceiver: ScreenBroadcastReceiver
 
     override fun onCreate() {
         super.onCreate()
