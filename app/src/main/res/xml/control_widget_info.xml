@@ -7,4 +7,4 @@
     android:initialLayout="@layout/control_widget2_loading"
     android:resizeMode="horizontal|vertical"
     android:widgetCategory="home_screen"
-    android:updatePeriodMillis="3600000" />
+    android:updatePeriodMillis="1800000" />
